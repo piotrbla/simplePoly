@@ -1,10 +1,14 @@
 #include <isl/set.h>
 #include <isl/ctx.h>
+#include <isl/union_set.h>
+#include <isl/union_map.h>
 #include <isl/options.h>
 #include <pet.h>
 
 #include <iostream>
 #include <string>
+
+#include "scopinfo.hh"
 
 void logLine(std::string s)
 {
@@ -29,12 +33,15 @@ int main(int argc, char *argv[])
         std::string message = "No SCoP in file: ";
         message.append(filename);
         logLine(message);
+        return 0;
     }
-    else
-    {
-        std::string message = "SCoP found in file: ";
-        message.append(filename);
-        logLine(message);
-    }
+    std::string message = "SCoP found in file: ";
+    message.append(filename);
+    logLine(message);
+
+    ScopInfo scopinfo(scop);
+    std::cout << scopinfo.toString() << std::endl;
+    
+    isl_ctx_free(ctx);//TODO: free/clear scop 
     return 0;
 }
