@@ -1,7 +1,9 @@
 #include "scopinfo.hh"
+#include "normalization.hh"
 #include <sstream>
 #include <cstring>
 #include <isl/flow.h>
+#include <iostream>
 
 
 static isl_stat collect_maps_callback(__isl_take isl_map* map, void* user)
@@ -213,4 +215,10 @@ void ScopInfo::computeRelationUnion() {
 
     isl_union_map_free(empty);
     relation = unwrap_range(relation);
+}
+
+void ScopInfo::normalize()
+{
+    isl_map * R_normalized = normalize_union_map(relation, schedule);
+    std::cout << "Normalized: " << isl_map_to_str(R_normalized) << std::endl;
 }

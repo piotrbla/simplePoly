@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 
     ScopInfo scopinfo(scop);
     std::cout << scopinfo.toString() << std::endl;
-
+    scopinfo.normalize();//TODO: refactor
     isl_ctx_free(ctx);//TODO: free/clear scop
     return 0;
 }

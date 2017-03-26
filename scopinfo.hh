@@ -15,6 +15,7 @@ public:
     ScopInfo(pet_scop* scop);
     ~ScopInfo();
     std::string toString();
+    void normalize();
 private:
     isl_ctx* ctx;
     isl_union_set* domain;
