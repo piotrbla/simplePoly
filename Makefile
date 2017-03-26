@@ -9,5 +9,5 @@ p01.o:	p01.cc scopinfo.hh
 scopinfo.o:	scopinfo.cc scopinfo.hh
 	$(CPP) -c scopinfo.cc
 
-normalization.o:    normalization.cc normalization.hh
-    $(CPP) -c normalization.cc
+normalization.o:	normalization.cc normalization.hh
+	$(CPP) -c normalization.cc
