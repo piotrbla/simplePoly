@@ -13,6 +13,7 @@ class ScopInfo
 {
 public:
     ScopInfo(pet_scop* scop);
+    ~ScopInfo();
     std::string toString();
 private:
     isl_ctx* ctx;
@@ -22,6 +23,7 @@ private:
     isl_union_map* reads;
     isl_union_map* writes;
     pet_scop* pet;
+    void computeRelationUnion();
 };
 
 #endif
