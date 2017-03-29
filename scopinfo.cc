@@ -119,6 +119,7 @@ ScopInfo::ScopInfo(pet_scop* scop)
     pet = scop;
     computeRelationUnion();
     ctx = isl_union_set_get_ctx(domain);
+
     for (int i = 0; i < pet->n_stmt; i++)
     {
         struct pet_stmt* statement = pet->stmts[i];

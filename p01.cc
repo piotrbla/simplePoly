@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
     const char *filename = "file.c";
     struct pet_scop* scop = 
       pet_scop_extract_from_C_source(ctx, filename, NULL);
+
     if (NULL == scop)
     {
         std::string message = "No SCoP in file: ";
@@ -30,6 +31,8 @@ int main(int argc, char *argv[])
     }
     std::string message = "SCoP found in file: ";
     message.append(filename);
+    std::string count_message = "\n Statement count: " + std::to_string(scop->n_stmt);
+    message.append(count_message);
     logLine(message);
 
     ScopInfo scopinfo(scop);
