@@ -144,7 +144,9 @@ ScopInfo::~ScopInfo()
     isl_union_map_free(reads);
     isl_union_map_free(writes);
     isl_union_map_free(schedule);
-
+    isl_union_map_free(relation);
+    isl_union_set_free(domain);
+    pet_scop_free(pet);
 }
 std::string ScopInfo::toString()
 {
@@ -222,4 +224,5 @@ void ScopInfo::normalize()
 {
     isl_map * R_normalized = normalize_union_map(relation, schedule);
     std::cout << "Normalized: " << isl_map_to_str(R_normalized) << std::endl;
+    isl_map_free(R_normalized);
 }
