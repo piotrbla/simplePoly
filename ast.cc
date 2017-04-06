@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <string.h>
+#include "scop.hh"
 
 struct tc_ast_visitor_context* tc_ast_visitor_context_alloc(__isl_keep isl_ctx* ctx)
 {
@@ -153,25 +154,10 @@ static __isl_give isl_multi_pw_aff* tc_ast_visitor_build_ast_exprs_index_callbac
     return isl_multi_pw_aff_pullback_pw_multi_aff(index, iterator_map);
 }
 
-struct pet_stmt* tc_scop_get_pet_stmt(__isl_keep struct pet_scop* pet, const char* label)
-{
-    struct pet_stmt* value = NULL;
-    for (int i = 0; i < pet->n_stmt; ++i)
-    {
-        struct pet_stmt* stmt = pet->stmts[i];
-        const char* stmt_label = isl_set_get_tuple_name(stmt->domain);
-        if (NULL != stmt_label && 0 == strcmp(label, stmt_label))
-        {
-            value = stmt;
-            break;
-        }
-    }
-    return value;
-}
 
 __isl_give isl_ast_node* tc_ast_visitor_at_each_domain(__isl_take isl_ast_node* node, __isl_keep isl_ast_build* build, void* user)
 {
-    struct pet_scop* pet = (struct pet_scop*) user;
+    struct tc_scop* scop = (struct tc_scop*) user;
     struct tc_ast_stmt_annotation* annotation = tc_ast_stmt_annotation_alloc();
     
     isl_ctx* ctx = isl_ast_node_get_ctx(node);
@@ -182,7 +168,7 @@ __isl_give isl_ast_node* tc_ast_visitor_at_each_domain(__isl_take isl_ast_node* 
 
     isl_id* id = isl_ast_expr_get_id(arg);
     
-    annotation->stmt = tc_scop_get_pet_stmt(pet, isl_id_get_name(id));
+    annotation->stmt = tc_scop_get_pet_stmt(scop, isl_id_get_name(id));
 
     isl_map* map = isl_map_from_union_map(isl_ast_build_get_schedule(build));
     
