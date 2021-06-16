@@ -239,7 +239,7 @@ __isl_give isl_union_map* tc_remove_loop_independent_dependences(__isl_take isl_
                 isl_map* loop_independent_dependence1 = isl_map_from_domain_and_range(isl_map_domain(isl_map_copy(tuple_map1)), isl_map_domain(isl_map_copy(tuple_map2)));
                 isl_map* loop_independent_dependence2 = isl_map_from_domain_and_range(isl_map_domain(isl_map_copy(tuple_map2)), isl_map_domain(isl_map_copy(tuple_map1)));
 
-                for (int l = 0; l < isl_map_n_in(tuple_map1); ++l)
+                for (int l = 0; l < isl_map_dim(tuple_map1, isl_dim_in); ++l)
                 {
                     loop_independent_dependence1 = isl_map_equate(loop_independent_dependence1, isl_dim_in, l, isl_dim_out, l);
                     loop_independent_dependence2 = isl_map_equate(loop_independent_dependence2, isl_dim_in, l, isl_dim_out, l);
@@ -377,7 +377,7 @@ __isl_give isl_set* tc_tile_m_set(__isl_keep isl_id_list* II, __isl_keep isl_set
     
     isl_set* ii_set_m_constraints = tc_make_set_constraints(isl_set_copy(ii_set_m), II);
         
-    int exact;
+    isl_bool exact;
     isl_map* Tcycle_plus = isl_map_transitive_closure(isl_map_copy(Tcycle), &exact);
     isl_map* Tcycle_star = isl_map_union(Tcycle_plus, tc_make_identity(isl_map_copy(Tcycle)));
     

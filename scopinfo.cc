@@ -209,66 +209,66 @@ __isl_give isl_union_map* remove_map_with_tuple(__isl_take isl_union_map* umap, 
 
 __isl_give isl_union_map* simplify_schedule(__isl_take isl_union_map* S)
 {
-    isl_map_list* maps = collect_maps(S);
-    isl_union_map_free(S);
-    isl_map* map_sample = isl_map_list_get_map(maps, 0);
-    int n_out = isl_map_n_out(map_sample);
+    // isl_map_list* maps = collect_maps(S);
+    // isl_union_map_free(S);
+    // isl_map* map_sample = isl_map_list_get_map(maps, 0);
+    // int n_out = isl_map_n_out(map_sample);
 
-    for (int i = n_out - 1; i >= 0; --i)
-    {
-        isl_val* val = isl_map_plain_get_val_if_fixed(map_sample, isl_dim_out, i);
+    // for (int i = n_out - 1; i >= 0; --i)
+    // {
+    //     isl_val* val = isl_map_plain_get_val_if_fixed(map_sample, isl_dim_out, i);
 
-        if (!isl_val_is_nan(val))
-        {
-            isl_bool all_equal = isl_bool_true;
+    //     if (!isl_val_is_nan(val))
+    //     {
+    //         isl_bool all_equal = isl_bool_true;
 
-            for (int j = 0; j < isl_map_list_n_map(maps); ++j)
-            {
-                isl_map* map = isl_map_list_get_map(maps, j);
+    //         for (int j = 0; j < isl_map_list_n_map(maps); ++j)
+    //         {
+    //             isl_map* map = isl_map_list_get_map(maps, j);
 
-                isl_val* val_other = isl_map_plain_get_val_if_fixed(map, isl_dim_out, i);
+    //             isl_val* val_other = isl_map_plain_get_val_if_fixed(map, isl_dim_out, i);
 
-                if (!isl_val_eq(val, val_other))
-                {
-                    all_equal = isl_bool_false;
-                }
+    //             if (!isl_val_eq(val, val_other))
+    //             {
+    //                 all_equal = isl_bool_false;
+    //             }
 
-                isl_val_free(val_other);
-                isl_map_free(map);
-            }
+    //             isl_val_free(val_other);
+    //             isl_map_free(map);
+    //         }
 
-            if (all_equal)
-            {
-                for (int j = 0; j < isl_map_list_n_map(maps); ++j)
-                {
-                    isl_map* map = isl_map_list_get_map(maps, j);
+    //         if (all_equal)
+    //         {
+    //             for (int j = 0; j < isl_map_list_n_map(maps); ++j)
+    //             {
+    //                 isl_map* map = isl_map_list_get_map(maps, j);
 
-                    map = isl_map_remove_dims(map, isl_dim_out, i, 1);
+    //                 map = isl_map_remove_dims(map, isl_dim_out, i, 1);
 
-                    maps = isl_map_list_set_map(maps, j, map);
-                }
-            }
-        }
+    //                 maps = isl_map_list_set_map(maps, j, map);
+    //             }
+    //         }
+    //     }
 
-        isl_val_free(val);
-    }
-    isl_map_free(map_sample);
+    //     isl_val_free(val);
+    // }
+    // isl_map_free(map_sample);
     isl_union_map* S_prim = NULL;
 
-    for (int i = 0; i < isl_map_list_n_map(maps); ++i)
-    {
-        isl_map* map = isl_map_list_get_map(maps, i);
+    // for (int i = 0; i < isl_map_list_n_map(maps); ++i)
+    // {
+    //     isl_map* map = isl_map_list_get_map(maps, i);
 
-        if (NULL == S_prim)
-        {
-            S_prim = isl_union_map_from_map(map);
-        }
-        else
-        {
-            S_prim = isl_union_map_add_map(S_prim, map);
-        }
-    }
-    isl_map_list_free(maps);
+    //     if (NULL == S_prim)
+    //     {
+    //         S_prim = isl_union_map_from_map(map);
+    //     }
+    //     else
+    //     {
+    //         S_prim = isl_union_map_add_map(S_prim, map);
+    //     }
+    // }
+    // isl_map_list_free(maps);
     return S_prim;
 }
 

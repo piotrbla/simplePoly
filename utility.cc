@@ -1255,7 +1255,7 @@ int tc_get_statement_depth(const char* label, __isl_keep isl_union_map* umap)
 {
     isl_map* map = tc_get_map_for_input_tuple(umap, label);
     
-    int depth = isl_map_n_in(map);
+    int depth = isl_map_dim(map, isl_dim_in);
     
     isl_map_free(map);
     
@@ -1533,25 +1533,25 @@ __isl_give isl_point* tc_set_to_point(__isl_take isl_set* set)
 isl_bool tc_points_compare(__isl_keep isl_point* lhs, __isl_keep isl_point* rhs)
 {
     isl_space* space = isl_point_get_space(lhs);
-    int n = isl_space_dim(space, isl_dim_set);
-    isl_space_free(space);
+    // int n = isl_space_dim(space, isl_dim_set);
+    // isl_space_free(space);
 
-    for (int i = 0; i < n; ++i)
-    {
-        isl_val* lhs_val = isl_point_get_coordinate_val(lhs, isl_dim_set, i);
-        isl_val* rhs_val = isl_point_get_coordinate_val(rhs, isl_dim_set, i);
+    // for (int i = 0; i < n; ++i)
+    // {
+    //     isl_val* lhs_val = isl_point_get_coordinate_val(lhs, isl_dim_set, i);
+    //     isl_val* rhs_val = isl_point_get_coordinate_val(rhs, isl_dim_set, i);
         
-        long lhs_value = isl_val_get_num_si(lhs_val);
-        long rhs_value = isl_val_get_num_si(rhs_val);
+    //     long lhs_value = isl_val_get_num_si(lhs_val);
+    //     long rhs_value = isl_val_get_num_si(rhs_val);
         
-        isl_val_free(lhs_val);
-        isl_val_free(rhs_val);
+    //     isl_val_free(lhs_val);
+    //     isl_val_free(rhs_val);
 
-        if (lhs_value != rhs_value)
-        {
-            return lhs_value < rhs_value ? isl_bool_true : isl_bool_false;
-        }
-    }
+    //     if (lhs_value != rhs_value)
+    //     {
+    //         return lhs_value < rhs_value ? isl_bool_true : isl_bool_false;
+    //     }
+    // }
 
     return isl_bool_false;
 }
@@ -1560,7 +1560,7 @@ __isl_give isl_map* tc_get_lex_forward(__isl_take isl_map* R)
 {
     isl_ctx* ctx = isl_map_get_ctx(R);
     
-    int n_in = isl_map_n_in(R);
+    int n_in = isl_map_dim(R, isl_dim_in);
     
     isl_id_list* e_in = tc_ids_sequence(ctx, "in", n_in);
     isl_id_list* e_out = tc_ids_sequence(ctx, "out", n_in);
@@ -1579,7 +1579,7 @@ __isl_give isl_map* tc_get_lex_backward(__isl_take isl_map* R)
 {
     isl_ctx* ctx = isl_map_get_ctx(R);
     
-    int n_in = isl_map_n_in(R);
+    int n_in = isl_map_dim(R, isl_dim_in);
     
     isl_id_list* e_in = tc_ids_sequence(ctx, "in", n_in);
     isl_id_list* e_out = tc_ids_sequence(ctx, "out", n_in);
@@ -1613,7 +1613,7 @@ __isl_give isl_union_map* tc_simplify_schedule(__isl_take isl_union_map* S)
                 
     isl_map* map_sample = isl_map_list_get_map(maps, 0);
     
-    int n_out = isl_map_n_out(map_sample);
+    int n_out = isl_map_dim(map_sample, isl_dim_out);
     
     for (int i = n_out - 1; i >= 0; --i)
     {        
@@ -1754,7 +1754,7 @@ isl_bool tc_map_carries_dependences(__isl_keep isl_map* map, int pos)
 {
     isl_bool carries_dependences = isl_bool_false;
     
-    int n_dim = isl_map_n_in(map);
+    int n_dim = isl_map_dim(map, isl_dim_in);
     
     isl_map* map_eq = isl_map_universe(isl_map_get_space(map));
     
